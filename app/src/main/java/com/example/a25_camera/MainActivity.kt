@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.camera2.CameraCharacteristics.LENS_FACING
 import android.hardware.display.DisplayManager
 import android.media.MediaScannerConnection
 import android.net.Uri
