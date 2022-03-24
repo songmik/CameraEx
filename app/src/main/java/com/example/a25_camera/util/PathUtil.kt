@@ -8,19 +8,20 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import com.example.a25_camera.R
 import java.io.File
 import java.io.FileOutputStream
 
 object PathUtil {
 
-    fun getPath(context: Context, uri: Uri): String ? {
-        if (DocumentsContract.isDocumentUri(context, uri)){
-            if (isExternalStorageDocument(uri)){
+    fun getPath(context: Context, uri: Uri): String? {
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":").toTypedArray()
                 val type = split[0]
-                if ("primary".equals(type, ignoreCase = true)){
-                    return context.getExternalFilesDir(null)?.absolutePath.toString()+"/" + split[1]
+                if ("primary".equals(type, ignoreCase = true)) {
+                    return context.getExternalFilesDir(null)?.absolutePath.toString() + "/" + split[1]
                 }
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
@@ -28,11 +29,11 @@ object PathUtil {
                     Uri.parse("content://downloads/public_downloads"), id.toString()
                 )
                 return getDataColumn(context, contentUri, null, null)
-            } else if (isMediaDocument(uri)){
+            } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":").toTypedArray()
                 val type = split[0]
-                var contentUri: Uri ? =null
+                var contentUri: Uri? = null
                 if ("image" == type) {
                     contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 } else if ("video" == type) {
@@ -48,7 +49,7 @@ object PathUtil {
             }
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
             return getDataColumn(context, uri, null, null)
-        } else if ("file".equals(uri.scheme, ignoreCase = true)){
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
         return null
@@ -59,8 +60,8 @@ object PathUtil {
         uri: Uri,
         selection: String,
         selectionArgs: Array<String>?
-    ) : String? {
-        var cursor: Cursor?= null
+    ): String? {
+        var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(column)
         try {
@@ -78,11 +79,11 @@ object PathUtil {
         return null
     }
 
-    private fun isExternalStorageDocument(uri: Uri):Boolean {
+    private fun isExternalStorageDocument(uri: Uri): Boolean {
         return "com.android.externalstorage.documents" == uri.authority
     }
 
-    private fun isDownloadsDocument(uri: Uri):Boolean {
+    private fun isDownloadsDocument(uri: Uri): Boolean {
         return "com.android.providers.downloads.documents" == uri.authority
     }
 
@@ -93,7 +94,7 @@ object PathUtil {
     fun getOutputDirectoryAndWrite(
         resolver: ContentResolver,
         uri: Uri,
-        write : (FileOutputStream) -> Unit
+        write: (FileOutputStream) -> Unit
     ) {
         resolver.openFileDescriptor(uri, "w").use {
             write(FileOutputStream(it.fileDescriptor))
@@ -102,7 +103,10 @@ object PathUtil {
 
     fun getOutputDirectory(activity: Activity): File = with(activity) {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, getString())
+            File(it, getString(R.string.app_name)).apply { mkdirs() }
         }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else filesDir
     }
+}
 }
