@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ksong/AndroidStudioProjects/25_camera/app/src/main/res/drawable/button_round_corner_4_black_24.xml" value="0.1" />
         <entry key="..\:/Users/ksong/AndroidStudioProjects/25_camera/app/src/main/res/layout/activity_camera.xml" value="0.2109375" />
+        <entry key="..\:/Users/ksong/AndroidStudioProjects/25_camera/app/src/main/res/layout/activity_image_list.xml" value="0.1" />
         <entry key="..\:/Users/ksong/AndroidStudioProjects/25_camera/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/ksong/AndroidStudioProjects/25_camera/app/src/main/res/layout/viewholder_image.xml" value="0.1" />
       </map>
     </option>
   </component>
