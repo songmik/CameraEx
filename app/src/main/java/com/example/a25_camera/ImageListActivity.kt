@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.a25_camera.adapter.ImageViewPagerAdapter
+import com.example.a25_camera.databinding.ActivityImageListBinding
 import com.example.a25_camera.util.PathUtil
 import java.io.File
 import java.io.FileNotFoundException
@@ -38,20 +39,19 @@ class ImageListActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        setSupportActionBar(binding.root)
+        setSupportActionBar(binding.toolbar)
         setupImageList(uriList)
     }
 
     private var currentUri: Uri? = null
 
     private fun setupImageList(uriList: List<Uri>) = with(binding) {
-        if (::imageViewPagerAdater.isIntilaized.not()) {
-            imageViewPagerAdapter =
-                com.example.a25_camera.adapter.ImageViewPagerAdapter(uriList.toMutableList())
+        if (::ImageViewPagerAdapter.isInitialized.not()) {
+            imageViewPagerAdapter = ImageViewPagerAdapter(uriList.toMutableList())
         }
         imageViewPager.adapter = imageViewPagerAdapter
-        indicatior = setViewPager(imageViewPager)
-        imageViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback()) {
+        indicator.setViewPager(imageViewPager)
+        imageViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 toolbar.title = if (imageViewPagerAdapter.uriList.isNotEmpty()) {
@@ -78,7 +78,7 @@ class ImageListActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, Intent().apply {
             putExtra(
                 URI_LIST_KEY,
-                ArrayList<Uri>.apply { imageViewPagerAdapter.uriList.forEach { add(it) } })
+                ArrayList<Uri>().apply { imageViewPagerAdapter.uriList.forEach { add(it) } })
         })
         finish()
     }
@@ -106,10 +106,10 @@ class ImageListActivity : AppCompatActivity() {
         }
 
         if (imageViewPagerAdapter.uriList.isEmpty()){
-            Toast.makeText(this, "삭제할 수 있는 이미지가 없습니다.", Toast.LENGTH_SHORT).show()\
+            Toast.makeText(this, "삭제할 수 있는 이미지가 없습니다.", Toast.LENGTH_SHORT).show()
             onBackPressed()
         } else {
-            binding.toolbar.title = getString(R.string.images_page, removedIndex+1, imageViewPagerAdater.uriList.size)
+            binding.toolbar.title = getString(R.string.images_page, removedIndex + 1, imageViewPagerAdapter.uriList.size)
         }
     }
 }

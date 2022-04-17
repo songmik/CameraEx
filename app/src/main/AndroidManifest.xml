@@ -15,8 +15,11 @@
         android:theme="@style/Theme.25_camera"
         android:name=".Application"
         tools:ignore="Instantiatable">
+        <activity android:name=".ImageListActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -20,9 +20,14 @@ import androidx.camera.core.ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY
 import androidx.camera.core.ImageCapture.FLASH_MODE_AUTO
 import androidx.camera.core.impl.ImageOutputConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.a25_camera.ImageListActivity.Companion.IMAGE_LIST_REQUEST_CODE
 import com.example.a25_camera.databinding.ActivityMainBinding
+import com.example.a25_camera.extensions.clear
+import com.example.a25_camera.extensions.loadCenterCrop
+import com.example.a25_camera.util.PathUtil
 import java.io.File
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
@@ -231,7 +236,7 @@ class MainActivity : AppCompatActivity() {
         if( requestCode == IMAGE_LIST_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             uriList = data?.getParcelableArrayListExtra(ImageListActivity.URI_LIST_KEY) ?: uriList
             if (uriList.isNotEmpty()) {
-                binding.previewImgeView.loadCenterCrop(
+                binding.previewImageView.loadCenterCrop(
                     url = uriList.first().toString(),
                     corner = 4f
                 )
